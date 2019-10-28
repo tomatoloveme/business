@@ -1,6 +1,7 @@
 package com.bh.dao;
 
 import com.bh.pojo.Product;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +45,6 @@ public interface ProductMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(Product record);
+
+    List<Product> findProductsByNameAndId(@Param("productId")Integer productId,@Param("productName")String productName);
 }

@@ -6,11 +6,8 @@ import com.bh.dao.CategoryMapper;
 import com.bh.pojo.Category;
 import com.bh.service.ICategoryService;
 import com.google.common.collect.Sets;
-import com.google.common.graph.Graph;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
