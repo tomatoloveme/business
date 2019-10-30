@@ -36,9 +36,9 @@
     </logger>
 
 
-    <!-- mybatis log 日志 -->
-    <!--    <logger name="com.bh.dao" level="DEBUG"/>
-        <root level="DEBUG">
+<!--     mybatis log 日志 -->
+        <logger name="com.bh.dao" level="DEBUG"/>
+<!--        <root level="DEBUG">
             <appender-ref ref="console"/>
             <appender-ref ref="error"/>
         </root>-->

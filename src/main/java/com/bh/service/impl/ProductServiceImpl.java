@@ -3,27 +3,34 @@ package com.bh.service.impl;
 import com.bh.common.ResponseCode;
 import com.bh.common.ServerResponse;
 import com.bh.dao.ProductMapper;
+import com.bh.pojo.Category;
 import com.bh.pojo.Product;
+import com.bh.service.ICategoryService;
 import com.bh.service.IProductService;
+import com.bh.utils.DateUtils;
+import com.bh.vo.ProductDetailVO;
 import com.bh.vo.ProductListVO;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-import org.thymeleaf.util.DateUtils;
 
-import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.io.IOException;
+import javax.annotation.Resource;
 import java.util.List;
-import java.util.UUID;
+
 
 @Service("productServiceImpl")
 public class ProductServiceImpl implements IProductService {
     @Autowired
     ProductMapper productMapper;
+    @Resource(name = "categoryServiceImpl")
+    ICategoryService categoryService;
+
+    @Value("${business.imageHost}")
+    private String imageHost;
     @Override
     public ServerResponse addOrUpdate(Product product) {
         if (product == null)
@@ -77,8 +84,9 @@ public class ProductServiceImpl implements IProductService {
     public ServerResponse search(String productName, Integer productId, Integer pageNum, Integer pageSize) {
         if (productName!=null)
             productName = "%"+productName+"%";
-        //是一个spring AOP 在下面的sql语句语句执行之前添加一个limit
-        PageHelper.startPage(pageNum,pageSize);
+        //是一个spring AOP 在下面的sql(productMapper)语句语句执行之前添加一个limit
+        Page page =PageHelper.startPage(pageNum,pageSize);
+
         List<Product> productList = productMapper.findProductsByNameAndId(productId,productName);
 
         List<ProductListVO> productListVOList = Lists.newArrayList();
@@ -91,9 +99,36 @@ public class ProductServiceImpl implements IProductService {
             }
         }
 
-        PageInfo pageInfo = new PageInfo(productListVOList);
+        PageInfo pageInfo = new PageInfo(page);
         return ServerResponse.serverResponseBySuccess(pageInfo);
     }
+
+    @Override
+    public ServerResponse detail(Integer productId) {
+        if (productId ==null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"id不能为空");
+        Product product = productMapper.selectByPrimaryKey(productId);
+
+        if (product == null)
+            return ServerResponse.serverResponseBySuccess();
+        //product ->productDetailVo
+        ProductDetailVO productDetailVO = assembleProductDetailVO(product);
+
+        return ServerResponse.serverResponseBySuccess(productDetailVO);
+    }
+
+    @Override
+    public ServerResponse<Product> findProductById(Integer productId) {
+
+        if (productId == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"productId不能为空!");
+        Product product = productMapper.selectByPrimaryKey(productId);
+        if (product == null)
+            //商品不存在
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"商品不存在！");
+        return ServerResponse.serverResponseBySuccess(product);
+    }
+
 
     private ProductListVO assembleProductListVO(Product product){
         ProductListVO productListVO=new ProductListVO();
@@ -107,6 +142,33 @@ public class ProductServiceImpl implements IProductService {
 
         return  productListVO;
     }
+
+
+    private ProductDetailVO assembleProductDetailVO(Product product){
+
+
+        ProductDetailVO productDetailVO=new ProductDetailVO();
+        productDetailVO.setCategoryId(product.getCategoryId());
+        productDetailVO.setCreateTime(DateUtils.dateToStr(product.getCreateTime()));
+        productDetailVO.setDetail(product.getDetail());
+        productDetailVO.setImageHost(imageHost);
+        productDetailVO.setName(product.getName());
+        productDetailVO.setMainImage(product.getMainImage());
+        productDetailVO.setId(product.getId());
+        productDetailVO.setPrice(product.getPrice());
+        productDetailVO.setStatus(product.getStatus());
+        productDetailVO.setStock(product.getStock());
+        productDetailVO.setSubImages(product.getSubImages());
+        productDetailVO.setSubtitle(product.getSubtitle());
+        productDetailVO.setUpdateTime(DateUtils.dateToStr(product.getUpdateTime()));
+        /*Category category= categoryMapper.selectByPrimaryKey(product.getCategoryId());*/
+        ServerResponse<Category> serverResponse = categoryService.selectCategory(product.getCategoryId());
+        Category category = serverResponse.getData();
+        if (category!=null)
+            productDetailVO.setParentCategoryId(category.getParentId());
+        return productDetailVO;
+    }
+
 
 
 /*    public ServerResponse upload(MultipartFile file, String path) {

@@ -7,6 +7,7 @@ import com.bh.pojo.Product;
 import com.bh.pojo.User;
 import com.bh.service.IProductService;
 import com.bh.utils.Const;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -56,12 +57,29 @@ public class ProductController {
                                  @RequestParam(name = "pageSize",required = false,defaultValue = "10")Integer pageSize,HttpSession session){
 
         User user = (User) session.getAttribute(Const.CURRENT_USER);
+        System.out.println(productId);
         if (user ==null)
             return ServerResponse.serverResponseByError(ResponseCode.NOT_LOGIN,"用户未登陆！");
         if (user.getRole()== RoleEnum.ROLE_USER.getRole())
             return ServerResponse.serverResponseByError(ResponseCode.ERROR,"权限不足，别瞎操作！");
 
         return productService.search(productName,productId,pageNum,pageSize);
+    }
+
+    /*
+    *商品详情
+    *
+    * */
+    @RequestMapping("{productId}")
+    public ServerResponse detail(@PathVariable("productId")Integer productId,HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        System.out.println(productId);
+        if (user ==null)
+            return ServerResponse.serverResponseByError(ResponseCode.NOT_LOGIN,"用户未登陆！");
+        if (user.getRole()== RoleEnum.ROLE_USER.getRole())
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"权限不足，别瞎操作！");
+
+        return productService.detail(productId);
     }
 
 

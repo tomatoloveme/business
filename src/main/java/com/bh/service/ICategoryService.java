@@ -34,4 +34,9 @@ public interface ICategoryService {
 
 
     public ServerResponse deepCategory( Integer categoryId);
+
+    /*
+    * 根据id来查询类别
+    * */
+    public ServerResponse selectCategory(Integer categoryId);
 }
