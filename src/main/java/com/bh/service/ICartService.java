@@ -1,7 +1,10 @@
 package com.bh.service;
 
 import com.bh.common.ServerResponse;
+import com.bh.pojo.Cart;
+
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 public interface ICartService {
 
@@ -17,4 +20,11 @@ public interface ICartService {
      *
      * */
     public ServerResponse listAll(Integer userid);
+
+    /*
+    *
+    * 根据用户id查看用户已经选中的商品
+    * */
+    public  ServerResponse<List<Cart>> findCartsByUseridAndChecked(Integer userId);
+
 }

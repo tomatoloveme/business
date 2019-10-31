@@ -39,7 +39,7 @@ public interface IProductService {
     * 商品的详情页
     * */
 
-    public ServerResponse detail(Integer productId);
+    public ServerResponse<Product> detail(Integer productId);
 
 
     /*

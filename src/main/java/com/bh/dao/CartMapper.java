@@ -64,4 +64,10 @@ public interface CartMapper {
     * 统计用户购物车中未选中商品的数量
     * */
     Integer isAllChecked(@Param("userid") Integer userid);
+
+    /*
+    * 查看购物车中用户勾选的商品
+    * */
+
+    List<Cart> findCartsByUseridAndChecked(@Param("userid") Integer userid);
 }

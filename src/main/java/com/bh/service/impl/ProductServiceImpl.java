@@ -104,7 +104,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ServerResponse detail(Integer productId) {
+    public ServerResponse<Product> detail(Integer productId) {
         if (productId ==null)
             return ServerResponse.serverResponseByError(ResponseCode.ERROR,"id不能为空");
         Product product = productMapper.selectByPrimaryKey(productId);

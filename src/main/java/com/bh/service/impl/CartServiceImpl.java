@@ -77,6 +77,12 @@ public class CartServiceImpl implements ICartService {
         return ServerResponse.serverResponseBySuccess(getCartVO(userid));
     }
 
+    @Override
+    public ServerResponse findCartsByUseridAndChecked(Integer userId) {
+        List<Cart> cartList = cartMapper.findCartsByUseridAndChecked(userId);
+        return ServerResponse.serverResponseBySuccess(cartList);
+    }
+
     //根据传入的userid把他的购物车信息封装成一个cartVo
     private CartVO getCartVO(Integer userid){
         CartVO cartVO = new CartVO();
