@@ -46,5 +46,12 @@ public interface ProductMapper {
      */
     int updateByPrimaryKey(Product record);
 
-    List<Product> findProductsByNameAndId(@Param("productId")Integer productId,@Param("productName")String productName);
+    List<Product> findProductsByNameAndId(@Param("productId")Integer productId,
+                                          @Param("productName")String productName);
+
+    /*
+    * 扣库存
+    * */
+
+    int reduceProductStock(@Param("productid") Integer productId,@Param("stock") Integer stock);
 }

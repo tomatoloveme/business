@@ -1,6 +1,8 @@
 package com.bh.dao;
 
 import com.bh.pojo.OrderItem;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 public interface OrderItemMapper {
@@ -43,4 +45,9 @@ public interface OrderItemMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(OrderItem record);
+
+    /*
+    *批量插入
+    * */
+    int insertBatch(@Param("orderItemList") List<OrderItem> orderItemList);
 }

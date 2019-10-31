@@ -104,7 +104,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public ServerResponse<Product> detail(Integer productId) {
+    public ServerResponse<ProductDetailVO> detail(Integer productId) {
         if (productId ==null)
             return ServerResponse.serverResponseByError(ResponseCode.ERROR,"id不能为空");
         Product product = productMapper.selectByPrimaryKey(productId);
@@ -118,6 +118,20 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public ServerResponse<ProductDetailVO> findByProductId(Integer productId) {
+        if (productId ==null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"id不能为空");
+        Product product = productMapper.selectByPrimaryKey(productId);
+
+        if (product == null)
+            return ServerResponse.serverResponseBySuccess();
+        //product ->productDetailVo
+
+
+        return ServerResponse.serverResponseBySuccess(product);
+    }
+
+    @Override
     public ServerResponse<Product> findProductById(Integer productId) {
 
         if (productId == null)
@@ -127,6 +141,19 @@ public class ProductServiceImpl implements IProductService {
             //商品不存在
             return ServerResponse.serverResponseByError(ResponseCode.ERROR,"商品不存在！");
         return ServerResponse.serverResponseBySuccess(product);
+    }
+
+    @Override
+    public ServerResponse reduceStock(Integer productId, Integer stock) {
+        if (productId == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"商品的id必须要传！");
+        if (stock == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"库存的参数必传！");
+
+        int result = productMapper.reduceProductStock(productId,stock);
+        if (result <= 0)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"库存更新失败！");
+        return ServerResponse.serverResponseBySuccess();
     }
 
 

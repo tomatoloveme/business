@@ -7,6 +7,8 @@ import com.bh.pojo.Shipping;
 import com.bh.service.IShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.misc.ObjectInputFilter;
+import sun.plugin2.message.transport.SerializingTransport;
 
 @Service("shippingServiceImpl")
 public class ShippingServiceImpl implements IShippingService {
@@ -31,5 +33,15 @@ public class ShippingServiceImpl implements IShippingService {
             //更新收货地址
         }
         return null;
+    }
+
+    @Override
+    public ServerResponse findShippingById(Integer shippingId) {
+        if (shippingId ==null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"shippingId必须传递！");
+        Shipping shipping = shippingMapper.selectByPrimaryKey(shippingId);
+        if (shipping ==null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"没有找到这个收货地址！");
+        return ServerResponse.serverResponseBySuccess(shipping);
     }
 }

@@ -2,6 +2,7 @@ package com.bh.service;
 
 import com.bh.common.ServerResponse;
 import com.bh.pojo.Product;
+import com.bh.vo.ProductDetailVO;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.servlet.http.HttpSession;
@@ -36,14 +37,24 @@ public interface IProductService {
                                  Integer pageSize);
 
     /*
-    * 商品的详情页
-    * */
+     * 商品的详情页
+     * */
 
-    public ServerResponse<Product> detail(Integer productId);
+    public ServerResponse<ProductDetailVO> detail(Integer productId);
+    /*
+     * 商品的详情页
+     * */
 
+    public ServerResponse<ProductDetailVO> findByProductId(Integer productId);
 
     /*
     * 根据商品Id来查询商品信息(库存数量)
     * */
     public ServerResponse<Product> findProductById(Integer productId);
+
+    /*
+    * 扣库存
+    * */
+
+    public ServerResponse reduceStock(Integer productId,Integer count);
 }

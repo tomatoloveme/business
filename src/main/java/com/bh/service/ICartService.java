@@ -27,4 +27,9 @@ public interface ICartService {
     * */
     public  ServerResponse<List<Cart>> findCartsByUseridAndChecked(Integer userId);
 
+    /*
+    * 清空购物车中下单的物品（批量删除购物车中的信息）
+    * */
+    public  ServerResponse deleteBatch(List<Cart> cartList);
+
 }

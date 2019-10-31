@@ -70,4 +70,9 @@ public interface CartMapper {
     * */
 
     List<Cart> findCartsByUseridAndChecked(@Param("userid") Integer userid);
+    /*
+    * 清空购物车所选中的商品
+    *
+    * */
+    int deleteBatch(@Param("cartList") List<Cart> cartList);
 }
