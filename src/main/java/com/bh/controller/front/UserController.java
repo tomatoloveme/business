@@ -80,7 +80,7 @@ public class UserController {
     public ServerResponse update_information(User user,HttpSession session){
        User loginUser = (User) session.getAttribute(Const.CURRENT_USER);
        if (loginUser==null){
-           return ServerResponse.serverResponseByError(ResponseCode.NOT_LOGIN,"为登录！");
+           return ServerResponse.serverResponseByError(ResponseCode.NOT_LOGIN,"未登录！");
        }
        user.setId(loginUser.getId());
        ServerResponse serverResponse = userService.update_information(user);
