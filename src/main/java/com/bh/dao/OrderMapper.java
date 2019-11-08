@@ -52,4 +52,19 @@ public interface OrderMapper {
     Order findOrderByOrderNo(@Param("orderNo") Long orderNo);
 
     int updateOrderStatusAndPaymentTimeByOrderNo(@Param("order") Order order);
+
+    int updateOrderStatusByOrderNo(@Param("order") Order order);
+
+
+    /*
+    *
+    * 查询需要关闭的订单
+    * */
+
+    public List<Order> selectOrderByCreateTime(@Param("time") String time);
+
+    /*
+    * 关闭订单
+    * */
+    public Integer closeOrder(@Param("id") Integer id);
 }

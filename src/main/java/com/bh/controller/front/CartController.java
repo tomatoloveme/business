@@ -5,13 +5,14 @@ import com.bh.common.ServerResponse;
 import com.bh.pojo.User;
 import com.bh.service.ICartService;
 import com.bh.utils.Const;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/cart/")
 public class CartController {

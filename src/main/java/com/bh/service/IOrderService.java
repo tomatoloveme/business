@@ -1,7 +1,10 @@
 package com.bh.service;
 
 import com.bh.common.ServerResponse;
+import com.bh.pojo.Order;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
 import java.util.Map;
 
 public interface IOrderService {
@@ -22,4 +25,18 @@ public interface IOrderService {
     * */
 
     public String callback(Map<String,String> requestParams);
+
+    /*
+    *
+    * 发货
+    * */
+    public ServerResponse sendGoods(Long orderNo);
+
+    /*
+    *
+    * 查询需要关闭的订单
+    *
+    *
+    * */
+    public List<Order> closeOrder(String closeOrderDate);
 }

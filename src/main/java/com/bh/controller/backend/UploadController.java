@@ -37,7 +37,7 @@ public class UploadController {
         return "upload"; //逻辑视图     前缀+逻辑视图+后缀  --》 /WEB-INF/jsp/upload.jsp
     }
 
-    @RequestMapping(value = "/upload",method = RequestMethod.POST)
+    @RequestMapping(value = "/upload"   ,method = RequestMethod.POST)
     @ResponseBody
 /*    public ServerResponse upload2(@RequestParam(value = "upload_file",required = false) MultipartFile file){
 

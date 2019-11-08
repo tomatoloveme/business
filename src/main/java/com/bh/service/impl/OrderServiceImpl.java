@@ -169,6 +169,51 @@ public class OrderServiceImpl implements IOrderService {
         return "success";
     }
 
+
+    /*
+    * 发货
+    * */
+
+    @Override
+    public ServerResponse sendGoods(Long orderNo) {
+        if (orderNo == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"orderNo不能为空！");
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setStatus(OrderStatusEnum.ORDER_SEND.getStatus());
+       int result =  orderMapper.updateOrderStatusByOrderNo(order);
+       if (result<=0)
+           return ServerResponse.serverResponseByError(ResponseCode.ERROR,"发货失败！");
+        return ServerResponse.serverResponseBySuccess("发货成功！");
+    }
+
+
+
+    @Override
+    public List<Order> closeOrder(String closeOrderDate) {
+        List<Order> orderList = orderMapper.selectOrderByCreateTime(closeOrderDate);
+        if (orderList == null ||orderList.size() == 0){
+            return null;
+        }
+        for (Order order :orderList){
+            //查询订单明细 ，恢复商品库存
+            List<OrderItem> orderItemList = orderItemMapper.findOrderItemByOrderNo(order.getOrderNo());
+            //遍历订单明细，恢复库存
+            for (OrderItem orderItem :orderItemList){
+                ServerResponse<Product> serverResponse = productService.findProductById(orderItem.getProductId());
+               if (!serverResponse.isSuccess())//商品不存在
+                   continue;
+
+                Product product = serverResponse.getData();
+                product.setStock(product.getStock()+orderItem.getQuantity());
+                productService.reduceStock(product.getId(),product.getStock()); //可以进行个判断，是否加库存成功
+            }
+            //关闭订单
+            orderMapper.closeOrder(order.getId());
+        }
+        return null;
+    }
+
     /*
     * 转化为orderVO
     *
@@ -366,7 +411,7 @@ public class OrderServiceImpl implements IOrderService {
                 .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                 .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
-                .setNotifyUrl("http://rsvfwb.natappfree.cc/order/callback.do")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                .setNotifyUrl("http://dm7b4n.natappfree.cc/order/callback.do")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
                 .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);
@@ -400,9 +445,6 @@ public class OrderServiceImpl implements IOrderService {
         }
         return ServerResponse.serverResponseByError();
     }
-
-
-
 
 
 
