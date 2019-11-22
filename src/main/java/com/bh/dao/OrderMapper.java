@@ -67,4 +67,14 @@ public interface OrderMapper {
     * 关闭订单
     * */
     public Integer closeOrder(@Param("id") Integer id);
+
+
+    /*
+    * 查询支付状态
+    *
+    * */
+    public Integer paymentStatus(@Param("orderNo") Long orderNo);
+
+
+    public List<Order> getOrderListByStatus(@Param("status") Integer status,@Param("userid")Integer userid);
 }

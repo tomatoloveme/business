@@ -214,6 +214,32 @@ public class OrderServiceImpl implements IOrderService {
         return null;
     }
 
+    @Override
+    public ServerResponse paymentStatus(Long orderNo) {
+        if (orderNo == null){
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"订单号不能为空！");
+        }
+        int status = orderMapper.paymentStatus(orderNo);
+        return ServerResponse.serverResponseBySuccess(status);
+    }
+
+    @Override
+    public ServerResponse getOrderListByStatus(Integer status,Integer userid) {
+        if (status == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"参数不能为空！");
+
+        List<Order> orderList = orderMapper.getOrderListByStatus(status,userid);
+        return ServerResponse.serverResponseBySuccess(orderList);
+    }
+
+    @Override
+    public ServerResponse getOrderItemByOrderId(Long orderId) {
+        if (orderId == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"参数不能为空！");
+        List<OrderItem> orderItemList= orderItemMapper.findOrderItemByOrderNo(orderId);
+        return ServerResponse.serverResponseBySuccess(orderItemList);
+    }
+
     /*
     * 转化为orderVO
     *
@@ -411,7 +437,7 @@ public class OrderServiceImpl implements IOrderService {
                 .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                 .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
-                .setNotifyUrl("http://dm7b4n.natappfree.cc/order/callback.do")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                .setNotifyUrl("http://yrcc54.natappfree.cc/order/callback.do")//支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
                 .setGoodsDetailList(goodsDetailList);
 
         AlipayF2FPrecreateResult result = tradeService.tradePrecreate(builder);

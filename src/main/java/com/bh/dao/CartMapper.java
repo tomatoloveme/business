@@ -1,5 +1,6 @@
 package com.bh.dao;
 
+import com.bh.common.ServerResponse;
 import com.bh.pojo.Cart;
 import org.apache.ibatis.annotations.Param;
 
@@ -75,4 +76,9 @@ public interface CartMapper {
     *
     * */
     int deleteBatch(@Param("cartList") List<Cart> cartList);
+
+    /*
+    * 改变购物车中某商品的状态
+    * */
+    int checkedProductById(@Param("productId") Integer productId,@Param("checked")  Integer productChecked);
 }

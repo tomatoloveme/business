@@ -52,7 +52,7 @@ public class CartServiceImpl implements ICartService {
             newCart.setUserId(userId);
             newCart.setProductId(productId);
             newCart.setQuantity(count);
-            newCart.setChecked(CheckEnum.CART_PRODCUT_CHECK.getCheck());
+            newCart.setChecked(CheckEnum.CART_PRODCUT_NUCHECK.getCheck());
             int result = cartMapper.insert(newCart);
             if (result<=0)
                 return ServerResponse.serverResponseByError(ResponseCode.ERROR,"添加失败！");
@@ -90,6 +90,20 @@ public class CartServiceImpl implements ICartService {
         int result = cartMapper.deleteBatch(cartList);
         if (result!=cartList.size())
             return ServerResponse.serverResponseByError(ResponseCode.ERROR,"购物车清空失败！");
+        return ServerResponse.serverResponseBySuccess();
+    }
+
+
+
+    @Override
+    public ServerResponse checkedProductById(Integer productId, Integer productChecked) {
+        if (productId == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"productId不能为空！");
+        if (productChecked == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"没有选中状态");
+        int result = cartMapper.checkedProductById(productId,productChecked);
+        if (result<=0)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"修改数据失败");
         return ServerResponse.serverResponseBySuccess();
     }
 

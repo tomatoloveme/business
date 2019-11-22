@@ -17,6 +17,13 @@
     <properties>
         <java.version>1.8</java.version>
 
+            <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+            <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+            <java.version>1.8</java.version>
+            <skipTests>true</skipTests>
+
+
+
     </properties>
 
     <dependencies>
@@ -134,15 +141,35 @@
             <version>1.9.8</version>
         </dependency>
 
+<!--        打包的时候吧alipay的jar给打包上去-->
+        <dependency>
+            <groupId>com.alipay.api</groupId>
+            <artifactId>apipay-sdk-java</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/alipay-sdk-java-3.3.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alipay.demo.trade</groupId>
+            <artifactId>apipay-trade-sdk</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/libs/alipay-trade-sdk-20161215.jar</systemPath>
+        </dependency>
 
 
     </dependencies>
 
     <build>
+        <finalName>eureka</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
 <!--    mybatis 逆向工程-->
             <plugin>

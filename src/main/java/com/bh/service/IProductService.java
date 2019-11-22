@@ -57,4 +57,9 @@ public interface IProductService {
     * */
 
     public ServerResponse reduceStock(Integer productId,Integer count);
+
+    /*
+    * 根据categoryid的查询哪些商品热门
+    * */
+    public ServerResponse findHotByCategoryId(Integer categoryId,Integer isHot);
 }

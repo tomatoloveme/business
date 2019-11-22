@@ -7,4 +7,8 @@ public interface IShippingService {
     public ServerResponse add(Shipping shipping);
 
     public ServerResponse findShippingById(Integer shippingId);
+/*
+* 查看所有收获地址
+* */
+    public ServerResponse listAll();
 }

@@ -7,8 +7,8 @@ import com.bh.pojo.Shipping;
 import com.bh.service.IShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.misc.ObjectInputFilter;
-import sun.plugin2.message.transport.SerializingTransport;
+
+import java.util.List;
 
 @Service("shippingServiceImpl")
 public class ShippingServiceImpl implements IShippingService {
@@ -43,5 +43,14 @@ public class ShippingServiceImpl implements IShippingService {
         if (shipping ==null)
             return ServerResponse.serverResponseByError(ResponseCode.ERROR,"没有找到这个收货地址！");
         return ServerResponse.serverResponseBySuccess(shipping);
+    }
+
+    @Override
+    public ServerResponse listAll() {
+        List<Shipping>  shippingList= shippingMapper.selectAll();
+        if (shippingList.size() == 0){
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"数据库中没有地址");
+        }
+        return ServerResponse.serverResponseBySuccess(shippingList);
     }
 }

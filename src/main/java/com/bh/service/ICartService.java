@@ -32,4 +32,10 @@ public interface ICartService {
     * */
     public  ServerResponse deleteBatch(List<Cart> cartList);
 
+    /*
+    *  更新购物车中商品被选中的状态
+    *
+    * */
+    public ServerResponse checkedProductById(Integer productId,Integer productChecked);
+
 }

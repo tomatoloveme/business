@@ -26,7 +26,7 @@ public class MySpringBootConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(adminAuthroityInterceptor)
                 .addPathPatterns("/manage/**")
-                .excludePathPatterns("/manage/login/**");
+                .excludePathPatterns("/manage/login/**","/manage/product/isHot","/manage/product/**");
 
 
 //        user
@@ -47,7 +47,7 @@ public class MySpringBootConfig implements WebMvcConfigurer {
         excludePathPatterns.add("/order/callback.do");
         excludePathPatterns.add("/order/callback.do");
         //开放购物车板块，vue调试要用
-        excludePathPatterns.add("/cart/");
+//        excludePathPatterns.add("/cart/");
 
         registry.addInterceptor(portalAuthorityInterceptor)
                 .addPathPatterns(addPatterns)

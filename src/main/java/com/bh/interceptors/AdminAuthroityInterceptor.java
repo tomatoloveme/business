@@ -29,6 +29,7 @@ public class AdminAuthroityInterceptor implements HandlerInterceptor {
             response.reset();
             try {
                 response.setHeader("Content-type","application/json;charset=utf-8");
+                response.setHeader("Access-Control-Allow-Origin","*");
                 PrintWriter printWriter = response.getWriter();
                 ServerResponse serverResponse = ServerResponse.serverResponseByError(ResponseCode.NOT_LOGIN,"未登录！");
                 String json = JsonUtils.obj2String(serverResponse);

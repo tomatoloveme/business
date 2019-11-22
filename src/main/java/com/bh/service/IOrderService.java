@@ -3,6 +3,7 @@ package com.bh.service;
 import com.bh.common.ServerResponse;
 import com.bh.pojo.Order;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 import java.util.Map;
@@ -39,4 +40,21 @@ public interface IOrderService {
     *
     * */
     public List<Order> closeOrder(String closeOrderDate);
+
+    /*
+     * 根据订单号查询订单支付状态
+     *
+     * */
+
+    public ServerResponse paymentStatus(Long orderNo);
+
+    /*
+    * 根据状态查询订单
+    * */
+    public ServerResponse getOrderListByStatus( Integer status,Integer userid);
+
+    /*
+    * 根据订单号查询订单明细
+    * */
+    public ServerResponse getOrderItemByOrderId( Long orderId);
 }

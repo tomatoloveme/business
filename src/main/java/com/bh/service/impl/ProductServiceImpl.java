@@ -156,6 +156,18 @@ public class ProductServiceImpl implements IProductService {
         return ServerResponse.serverResponseBySuccess();
     }
 
+    @Override
+    public ServerResponse findHotByCategoryId(Integer categoryId, Integer isHot) {
+        if (categoryId == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"categoryId不能为空！");
+        if (isHot == null)
+            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"isHot的值不能为空！");
+            List<Product> productList = productMapper.findHotByCategoryId(categoryId,isHot);
+            if (productList == null)
+                return ServerResponse.serverResponseByError(ResponseCode.ERROR,"查询出错了！");
+        return ServerResponse.serverResponseBySuccess(productList);
+    }
+
 
     private ProductListVO assembleProductListVO(Product product){
         ProductListVO productListVO=new ProductListVO();

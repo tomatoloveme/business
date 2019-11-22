@@ -46,12 +46,21 @@ public interface ProductMapper {
      */
     int updateByPrimaryKey(Product record);
 
-    List<Product> findProductsByNameAndId(@Param("productId")Integer productId,
-                                          @Param("productName")String productName);
+    List<Product> findProductsByNameAndId(@Param("productId") Integer productId,
+                                          @Param("productName") String productName);
 
     /*
-    * 扣库存
-    * */
+     * 扣库存
+     * */
 
-    int reduceProductStock(@Param("productid") Integer productId,@Param("stock") Integer stock);
+    int reduceProductStock(@Param("productid") Integer productId, @Param("stock") Integer stock);
+
+
+    /*
+    * 查询热门商品
+    * */
+    List<Product> findHotByCategoryId(@Param("categoryId") Integer categoryId, @Param("isHot") Integer isHot);
+
+
+
 }

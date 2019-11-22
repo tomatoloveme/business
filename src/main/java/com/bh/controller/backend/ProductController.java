@@ -7,14 +7,11 @@ import com.bh.pojo.Product;
 import com.bh.pojo.User;
 import com.bh.service.IProductService;
 import com.bh.utils.Const;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/manage/product/")
 public class ProductController {
@@ -71,16 +68,19 @@ public class ProductController {
     *
     * */
     @RequestMapping("{productId}")
-    public ServerResponse detail(@PathVariable("productId")Integer productId,HttpSession session){
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
-        System.out.println(productId);
-        if (user ==null)
-            return ServerResponse.serverResponseByError(ResponseCode.NOT_LOGIN,"用户未登陆！");
-        if (user.getRole()== RoleEnum.ROLE_USER.getRole())
-            return ServerResponse.serverResponseByError(ResponseCode.ERROR,"权限不足，别瞎操作！");
+    public ServerResponse detail(@PathVariable("productId")Integer productId){
+
 
         return productService.detail(productId);
     }
 
+    /*
+     * 根据类别id和isHot值来查询哪些是product是热门的
+     * */
+    @RequestMapping("isHot")
+    public ServerResponse findHotByCategoryId(Integer categoryId,Integer isHot){
+
+        return productService.findHotByCategoryId(categoryId, isHot);
+    }
 
 }

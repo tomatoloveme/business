@@ -53,6 +53,37 @@ public class OrderController {
     }
 
 
+    /*
+    * 根据订单号查询订单支付状态
+    *
+    * */
+
+    @RequestMapping("getStatus/{orderNo}")
+    public ServerResponse paymentStatus(@PathVariable("orderNo")Long orderNo){
+
+        return orderService.paymentStatus(orderNo);
+    }
+
+    /*
+    * 根据状态查询订单
+    *
+    *
+    * */
+    @RequestMapping("getList/{status}")
+    public ServerResponse getOrderListByStatus(@PathVariable("status") Integer status,HttpSession session){
+        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        return orderService.getOrderListByStatus(status,user.getId());
+    }
+
+    /*
+    * 根据订单号查询订单明细
+    *
+    * */
+    @RequestMapping("getOrderItem/{orderId}")
+    public ServerResponse getOrderItemByOrderId(@PathVariable("orderId") Long orderId){
+            return orderService.getOrderItemByOrderId(orderId);
+    }
+
 
     /*
     *

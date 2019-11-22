@@ -27,4 +27,14 @@ public class ShippingController {
 
         return shippingService.add(shipping);
     }
+
+    /*
+    * 查询所有的收获地址
+    * */
+    @RequestMapping("listAll")
+    public ServerResponse listAll(){
+        return shippingService.listAll();
+    }
+
+
 }

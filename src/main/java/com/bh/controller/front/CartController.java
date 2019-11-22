@@ -5,10 +5,7 @@ import com.bh.common.ServerResponse;
 import com.bh.pojo.User;
 import com.bh.service.ICartService;
 import com.bh.utils.Const;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
@@ -56,4 +53,19 @@ public class CartController {
 
         return
     }*/
+
+
+    /*
+     *  更新购物车中商品被选中的状态
+     *
+     * */
+    @RequestMapping("select.do")
+    public ServerResponse checkedProductById(@RequestParam("productId") Integer productId,
+                                             @RequestParam("checked") Integer checked){
+
+        return cartService.checkedProductById(productId,checked);
+    }
+
+
+
 }
